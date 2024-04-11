@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
     /** Query for database to find all users like fullName */
     private static final String FIND_ALL_USERS_LIKE_FULLNAME_SQL = "SELECT user.id,login,password,status,user_status.name,user.name,surname,patronymic,birthdate,phone,image_path FROM user " +
             "JOIN user_status ON user.status = user_status.id " +
-            "WHERE (user.name REGEXP ? OR surname REGEXP ? OR patronymic REGEXP ?)";
+            "WHERE (user.name ~* ? OR surname ~* ? OR patronymic ~* ?)";
 
     /** Message, that is put in Exception if there is sign in problem */
     private static final String MESSAGE_SIGN_IN_PROBLEM = "Can't handle UserDAO.signIn request";
