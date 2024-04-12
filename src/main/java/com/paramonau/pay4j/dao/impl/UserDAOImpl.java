@@ -21,34 +21,34 @@ public class UserDAOImpl implements UserDAO {
     private static final StringEncryptor stringEncryptor = StringEncryptor.getInstance();
 
     /** Query for database to sign up new user */
-    private static final String SIGNUP_SQL = "INSERT INTO user(login,password,status,name,surname,patronymic,birthdate,phone) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String SIGNUP_SQL = "INSERT INTO users(login,password,status,name,surname,patronymic,birthdate,phone) VALUES (?,?,?,?,?,?,?,?)";
 
     /** Query for database to update user data by user ID */
-    private static final String UPDATE_USER_BY_ID_SQL = "UPDATE user SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone = ? WHERE id = ?";
+    private static final String UPDATE_USER_BY_ID_SQL = "UPDATE users SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone = ? WHERE id = ?";
 
     /** Query for database to update image path by user ID */
-    private static final String UPDATE_IMAGE_BY_ID_SQL = "UPDATE user SET image_path = ? WHERE id = ?";
+    private static final String UPDATE_IMAGE_BY_ID_SQL = "UPDATE users SET image_path = ? WHERE id = ?";
 
     /** Query for database to update password by user ID */
-    private static final String UPDATE_PASSWORD_BY_ID_SQL = "UPDATE user SET password = ? WHERE id = ?";
+    private static final String UPDATE_PASSWORD_BY_ID_SQL = "UPDATE users SET password = ? WHERE id = ?";
 
     /** Query for database to update status by user ID */
-    private static final String UPDATE_STATUS_BY_ID_SQL = "UPDATE user SET status = ? WHERE id = ?";
+    private static final String UPDATE_STATUS_BY_ID_SQL = "UPDATE users SET status = ? WHERE id = ?";
 
     /** Query for database to find user by login */
-    private static final String FIND_USER_BY_LOGIN_SQL = "SELECT user.id,login,password,status,user_status.name,users.name,surname,patronymic,birthdate,phone,image_path FROM user " +
-            "JOIN user_status ON user.status = user_status.id " +
+    private static final String FIND_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,status,user_status.name as user_status_name,users.name as name,surname,patronymic,birthdate,phone,image_path FROM users " +
+            "JOIN user_status ON users.status = user_status.id " +
             "WHERE (login = ?)";
 
     /** Query for database to find user by user ID */
-    private static final String FIND_USER_BY_ID_SQL = "SELECT user.id,login,password,status,user_status.name,user.name,surname,patronymic,birthdate,phone,image_path FROM user " +
-            "JOIN user_status ON user.status = user_status.id " +
-            "WHERE (user.id = ?)";
+    private static final String FIND_USER_BY_ID_SQL = "SELECT users.id,login,password,status,user_status.name as user_status_name,users.name as name,surname,patronymic,birthdate,phone,image_path FROM users " +
+            "JOIN user_status ON users.status = user_status.id " +
+            "WHERE (users.id = ?)";
 
     /** Query for database to find all users like fullName */
-    private static final String FIND_ALL_USERS_LIKE_FULLNAME_SQL = "SELECT user.id,login,password,status,user_status.name,user.name,surname,patronymic,birthdate,phone,image_path FROM user " +
-            "JOIN user_status ON user.status = user_status.id " +
-            "WHERE (user.name ~* ? OR surname ~* ? OR patronymic ~* ?)";
+    private static final String FIND_ALL_USERS_LIKE_FULLNAME_SQL = "SELECT users.id,login,password,status,user_status.name as user_status_name,users.name as name,surname,patronymic,birthdate,phone,image_path FROM users " +
+            "JOIN user_status ON users.status = user_status.id " +
+            "WHERE (users.name ~* ? OR surname ~* ? OR patronymic ~* ?)";
 
     /** Message, that is put in Exception if there is sign in problem */
     private static final String MESSAGE_SIGN_IN_PROBLEM = "Can't handle UserDAO.signIn request";
@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(SignDataIndex.NAME, signUpData.getName());
             ps.setString(SignDataIndex.SURNAME, signUpData.getSurname());
             ps.setString(SignDataIndex.PATRONYMIC, signUpData.getPatronymic());
-            ps.setDate(SignDataIndex.BIRTH_DATE, new Date(signUpData.getBirthDate().getTime()));
+            ps.setDate(SignDataIndex.BIRTH_DATE, Date.valueOf(signUpData.getBirthDate()));
             ps.setString(SignDataIndex.PHONE, signUpData.getPhone());
             ps.execute();
 
@@ -141,7 +141,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(rs.getString(ColumnName.NAME));
                 user.setSurname(rs.getString(ColumnName.SURNAME));
                 user.setPatronymic(rs.getString(ColumnName.PATRONYMIC));
-                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE));
+                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE).toLocalDate());
                 user.setPhone(rs.getString(ColumnName.PHONE));
                 user.setImagePath(rs.getString(ColumnName.IMAGE_PATH));
             }
@@ -162,7 +162,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(UpdateUserIndex.NAME, user.getName());
             ps.setString(UpdateUserIndex.SURNAME, user.getSurname());
             ps.setString(UpdateUserIndex.PATRONYMIC, user.getPatronymic());
-            ps.setDate(UpdateUserIndex.BIRTH_DATE, new Date(user.getBirthDate().getTime()));
+            ps.setDate(UpdateUserIndex.BIRTH_DATE, Date.valueOf(user.getBirthDate()));
             ps.setString(UpdateUserIndex.PHONE, user.getPhone());
             ps.setInt(UpdateUserIndex.ID, user.getId());
             ps.execute();
@@ -199,7 +199,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(rs.getString(ColumnName.NAME));
                 user.setSurname(rs.getString(ColumnName.SURNAME));
                 user.setPatronymic(rs.getString(ColumnName.PATRONYMIC));
-                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE));
+                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE).toLocalDate());
                 user.setPhone(rs.getString(ColumnName.PHONE));
                 user.setPhone(rs.getString(ColumnName.IMAGE_PATH));
             }
@@ -224,7 +224,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(FindAllUsersByFullNameIndex.PATRONYMIC, fullName);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 User user = new User();
                 Status status = new Status();
                 status.setId(rs.getInt(ColumnName.STATUS_ID));
@@ -236,9 +236,9 @@ public class UserDAOImpl implements UserDAO {
                 user.setName(rs.getString(ColumnName.NAME));
                 user.setSurname(rs.getString(ColumnName.SURNAME));
                 user.setPatronymic(rs.getString(ColumnName.PATRONYMIC));
-                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE));
+                user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE).toLocalDate());
                 user.setPhone(rs.getString(ColumnName.PHONE));
-                user.setPhone(rs.getString(ColumnName.IMAGE_PATH));
+                user.setImagePath(rs.getString(ColumnName.IMAGE_PATH));
 
                 users.add(user);
             }
@@ -304,12 +304,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private static class ColumnName {
-        private static final String ID = "user.id";
+        private static final String ID = "id";
         private static final String LOGIN = "login";
         private static final String PASSWORD = "password";
         private static final String STATUS_ID = "status";
-        private static final String STATUS_NAME = "user_status.name";
-        private static final String NAME = "user.name";
+        private static final String STATUS_NAME = "user_status_name";
+        private static final String NAME = "name";
         private static final String SURNAME = "surname";
         private static final String PATRONYMIC = "patronymic";
         private static final String BIRTHDATE = "birthdate";

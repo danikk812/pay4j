@@ -1,5 +1,6 @@
 package com.paramonau.pay4j.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,13 +9,13 @@ public class SignUpData extends SignInData {
     private String name;
     private String surname;
     private String patronymic;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String phone;
 
     public SignUpData() {
     }
 
-    public SignUpData(String name, String surname, String patronymic, Date birthDate, String phone) {
+    public SignUpData(String name, String surname, String patronymic, LocalDate birthDate, String phone) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
@@ -46,11 +47,11 @@ public class SignUpData extends SignInData {
         this.patronymic = patronymic;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
