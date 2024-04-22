@@ -1,5 +1,6 @@
 package com.paramonau.pay4j.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class User {
     private String name;
     private String surname;
     private String patronymic;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String phone;
     private Status status;
     private String imagePath;
@@ -55,11 +56,11 @@ public class User {
         this.patronymic = patronymic;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
