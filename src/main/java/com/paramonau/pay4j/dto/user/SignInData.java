@@ -1,4 +1,4 @@
-package com.paramonau.pay4j.entity;
+package com.paramonau.pay4j.dto.user;
 
 import java.util.Objects;
 

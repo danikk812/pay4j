@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Account {
 
-    private  Integer id;
+    private Integer id;
     private Integer user;
     private Status status;
     private BigDecimal balance;

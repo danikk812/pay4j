@@ -3,8 +3,8 @@ package com.paramonau.pay4j.dao.impl;
 import com.paramonau.pay4j.dao.ResultCode;
 import com.paramonau.pay4j.dao.UserDAO;
 import com.paramonau.pay4j.datasource.connection.ConnectionPool;
-import com.paramonau.pay4j.entity.SignInData;
-import com.paramonau.pay4j.entity.SignUpData;
+import com.paramonau.pay4j.dto.user.SignInData;
+import com.paramonau.pay4j.dto.user.SignUpData;
 import com.paramonau.pay4j.entity.Status;
 import com.paramonau.pay4j.entity.User;
 import com.paramonau.pay4j.exception.DAOException;
@@ -201,7 +201,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setPatronymic(rs.getString(ColumnName.PATRONYMIC));
                 user.setBirthDate(rs.getDate(ColumnName.BIRTHDATE).toLocalDate());
                 user.setPhone(rs.getString(ColumnName.PHONE));
-                user.setPhone(rs.getString(ColumnName.IMAGE_PATH));
+                user.setImagePath(rs.getString(ColumnName.IMAGE_PATH));
             }
         } catch (SQLException e) {
             throw new DAOException(MESSAGE_GET_USER_BY_ID_PROBLEM, e);
@@ -280,7 +280,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateStatus(Integer id, int status) throws DAOException {
+    public void updateStatus(Integer id, Integer status) throws DAOException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_BY_ID_SQL)) {
             ps.setInt(UpdateStatusIndex.STATUS, status);
