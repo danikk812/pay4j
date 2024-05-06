@@ -1,26 +1,24 @@
-package com.paramonau.pay4j.entity;
+package com.paramonau.pay4j.dto.user;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
-public class SignUpData extends SignInData {
+public class UserBean {
 
+    private String login;
     private String name;
     private String surname;
     private String patronymic;
     private LocalDate birthDate;
     private String phone;
+    private String imagePath;
 
-    public SignUpData() {
+    public String getLogin() {
+        return login;
     }
 
-    public SignUpData(String name, String surname, String patronymic, LocalDate birthDate, String phone) {
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.birthDate = birthDate;
-        this.phone = phone;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getName() {
@@ -63,14 +61,24 @@ public class SignUpData extends SignInData {
         this.phone = phone;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
-        return "SignUpData{" +
-                "name='" + name + '\'' +
+        return "UserBean{" +
+                "login='" + login + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
                 ", phone='" + phone + '\'' +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 
@@ -78,13 +86,12 @@ public class SignUpData extends SignInData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        SignUpData that = (SignUpData) o;
-        return Objects.equals(name, that.name) && Objects.equals(surname, that.surname) && Objects.equals(patronymic, that.patronymic) && Objects.equals(birthDate, that.birthDate) && Objects.equals(phone, that.phone);
+        UserBean userBean = (UserBean) o;
+        return Objects.equals(login, userBean.login) && Objects.equals(name, userBean.name) && Objects.equals(surname, userBean.surname) && Objects.equals(patronymic, userBean.patronymic) && Objects.equals(birthDate, userBean.birthDate) && Objects.equals(phone, userBean.phone) && Objects.equals(imagePath, userBean.imagePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, patronymic, birthDate, phone);
+        return Objects.hash(login, name, surname, patronymic, birthDate, phone, imagePath);
     }
 }

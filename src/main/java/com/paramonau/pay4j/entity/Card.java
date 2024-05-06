@@ -10,7 +10,7 @@ public class Card {
     private String number;
     private String ownerName;
     private LocalDate expirationDate;
-    private int cvv;
+    private Integer cvv;
     private Status status;
 
     public Integer getId() {
@@ -53,11 +53,11 @@ public class Card {
         this.expirationDate = expirationDate;
     }
 
-    public int getCvv() {
+    public Integer getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
+    public void setCvv(Integer cvv) {
         this.cvv = cvv;
     }
 
