@@ -280,7 +280,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateStatus(Integer id, Integer status) throws DAOException {
+    public void updateStatus(Integer id, int status) throws DAOException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_BY_ID_SQL)) {
             ps.setInt(UpdateStatusIndex.STATUS, status);

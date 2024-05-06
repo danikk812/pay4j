@@ -1,7 +1,8 @@
 package com.paramonau.pay4j.dao;
 
-import com.paramonau.pay4j.entity.SignInData;
-import com.paramonau.pay4j.entity.SignUpData;
+
+import com.paramonau.pay4j.dto.user.SignInData;
+import com.paramonau.pay4j.dto.user.SignUpData;
 import com.paramonau.pay4j.entity.User;
 import com.paramonau.pay4j.exception.DAOException;
 

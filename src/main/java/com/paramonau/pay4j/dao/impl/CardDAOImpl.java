@@ -91,7 +91,7 @@ public class CardDAOImpl implements CardDAO {
         return card;
     }
 
-    private List<Card> findAllByProvidedId(Integer id, String sql, String exception) {
+    private List<Card> findAllByProvidedId(Integer id, String sql, String exception) throws DAOException {
         final int STATUS_ACTIVE = 1;
         List<Card> cards = new ArrayList<>();
 
